@@ -1,0 +1,39 @@
+name: "Git Config"
+description: "Setup GitHub Credentials"
+inputs:
+  git_name:
+    description: "Your GitHub Username"
+    default: "rokibhasansagar"
+    required: false
+  git_email:
+    description: "Your GitHub Commit Email"
+    default: "10854164+rokibhasansagar@users.noreply.github.com"
+    required: false
+  credential:
+    description: "Store Git Credentials"
+    default: "yes"
+    required: false
+  git_cookies:
+    description: "Configure Google Git Cookies"
+    default: "yes"
+    required: false
+runs:
+  using: "composite"
+  steps: 
+    - name: "Configure GitHub Credentials"
+      shell: bash
+      run: |
+        git config --global user.email ${{ inputs.git_email }}
+        git config --global user.name ${{ inputs.git_name }}
+        git config --global color.ui true
+        if [[ ${{ inputs.credential }} =~ "yes" ]]; then
+          git config --global credential.helper store
+          echo "https://${{ inputs.git_name }}:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
+        fi
+        if [[ ${{ inputs.git_cookies }} =~ "yes" ]]; then
+          git clone -q "https://${{ secrets.GH_TOKEN }}@github.com/${{ inputs.git_name }}/google-git-cookies.git" &> /dev/null
+          if [ -e google-git-cookies ]; then
+            bash google-git-cookies/setup_cookies.sh
+            rm -rf google-git-cookies
+          fi
+        fi
