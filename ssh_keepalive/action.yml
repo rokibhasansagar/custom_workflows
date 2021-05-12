@@ -1,0 +1,20 @@
+name: "SSH KeepaAlive"
+description: "Keep SSH sessions Alive"
+runs:
+  using: "composite"
+  steps: 
+    - name: "Configure KeepAlive"
+      shell: bash
+      run: |
+        mkdir -p ~/.ssh
+        cat << EOF > ~/.ssh/config
+        Host *
+            ServerAliveInterval 60
+            StrictHostKeyChecking no
+        Host github.com
+            User git
+            Port 22
+            Hostname github.com
+            TCPKeepAlive yes
+            IdentitiesOnly yes
+        EOF
