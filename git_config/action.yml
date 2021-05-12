@@ -28,10 +28,10 @@ runs:
         git config --global color.ui true
         if [[ ${{ inputs.credential }} =~ "yes" ]]; then
           git config --global credential.helper store
-          echo "https://${{ inputs.git_name }}:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
+          echo "https://${{ inputs.git_name }}:${PAT}@github.com" > ~/.git-credentials
         fi
         if [[ ${{ inputs.git_cookies }} =~ "yes" ]]; then
-          git clone -q "https://${{ secrets.GH_TOKEN }}@github.com/${{ inputs.git_name }}/google-git-cookies.git" &> /dev/null
+          git clone -q "https://${PAT}@github.com/${{ inputs.git_name }}/google-git-cookies.git" &> /dev/null
           if [ -e google-git-cookies ]; then
             bash google-git-cookies/setup_cookies.sh
             rm -rf google-git-cookies
