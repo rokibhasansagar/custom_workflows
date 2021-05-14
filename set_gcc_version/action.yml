@@ -1,0 +1,47 @@
+name: "GNU Compiler selector"
+description: "Updates alternatives of GNU C/C++ Compilers. This automatically sets version 10>9 as alternatives."
+inputs:
+  default_ver:
+    description: "Default Version for GNU C/C++ Compilers"
+    default: "10"
+    required: false
+  alternate_ver:
+    description: "Secondary/Alternate Version for GNU C/C++ Compilers"
+    default: "9"
+    required: false
+runs:
+  using: "composite"
+  steps: 
+    - name: "Configure GNU C/C++ Compilers"
+      shell: bash
+      run: |
+        if [[ ! -f /usr/bin/gcc-${{ inputs.default_ver }} ]]; then
+          printf "[!] /usr/bin/gcc-%s does not exist.\nPlease choose a valid version number.\n" "${{ inputs.default_ver }}"
+          exit 1
+        fi
+        if [[ ! -f /usr/bin/gcc-${{ inputs.alternate_ver }} ]]; then
+          printf "[!] /usr/bin/gcc-%s does not exist.\nPlease choose a valid version number.\n" "${{ inputs.alternate_ver }}"
+          exit 1
+        fi
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${{ inputs.default_ver }} 100
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${{ inputs.alternate_ver }} 90
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${{ inputs.default_ver }} 100
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${{ inputs.alternate_ver }} 90
+        sudo update-alternatives --install /usr/bin/cpp cpp /usr/bin/cpp-${{ inputs.default_ver }} 100
+        sudo update-alternatives --install /usr/bin/cpp cpp /usr/bin/cpp-${{ inputs.alternate_ver }} 90
+        sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-${{ inputs.default_ver }} 100
+        sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-${{ inputs.alternate_ver }} 90
+        sudo update-alternatives --install /usr/bin/gcov-dump gcov-dump /usr/bin/gcov-dump-${{ inputs.default_ver }} 100
+        sudo update-alternatives --install /usr/bin/gcov-dump gcov-dump /usr/bin/gcov-dump-${{ inputs.alternate_ver }} 90
+        sudo update-alternatives --install /usr/bin/gcov-tool gcov-tool /usr/bin/gcov-tool-${{ inputs.default_ver }} 100
+        sudo update-alternatives --install /usr/bin/gcov-tool gcov-tool /usr/bin/gcov-tool-${{ inputs.alternate_ver }} 90
+        sudo update-alternatives --install /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-1${{ inputs.default_ver }}100
+        sudo update-alternatives --install /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-${{ inputs.alternate_ver }} 90
+        sudo update-alternatives --install /usr/bin/gcc-nm gcc-nm /usr/bin/gcc-nm-${{ inputs.default_ver }} 100
+        sudo update-alternatives --install /usr/bin/gcc-nm gcc-nm /usr/bin/gcc-nm-${{ inputs.alternate_ver }} 90
+        sudo update-alternatives --install /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-${{ inputs.default_ver }} 100
+        sudo update-alternatives --install /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-${{ inputs.alternate_ver }} 90
+        if [[ $? -ne 0 ]]; then
+          printf "[!] Something went wrong.\n"
+          exit 1
+        fi
