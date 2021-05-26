@@ -36,7 +36,7 @@ runs:
         sudo update-alternatives --install /usr/bin/gcov-dump gcov-dump /usr/bin/gcov-dump-${{ inputs.alternate_ver }} 90
         sudo update-alternatives --install /usr/bin/gcov-tool gcov-tool /usr/bin/gcov-tool-${{ inputs.default_ver }} 100
         sudo update-alternatives --install /usr/bin/gcov-tool gcov-tool /usr/bin/gcov-tool-${{ inputs.alternate_ver }} 90
-        sudo update-alternatives --install /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-1${{ inputs.default_ver }}100
+        sudo update-alternatives --install /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-${{ inputs.default_ver }} 100
         sudo update-alternatives --install /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-${{ inputs.alternate_ver }} 90
         sudo update-alternatives --install /usr/bin/gcc-nm gcc-nm /usr/bin/gcc-nm-${{ inputs.default_ver }} 100
         sudo update-alternatives --install /usr/bin/gcc-nm gcc-nm /usr/bin/gcc-nm-${{ inputs.alternate_ver }} 90
