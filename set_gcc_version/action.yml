@@ -15,6 +15,7 @@ runs:
     - name: "Configure GNU C/C++ Compilers"
       shell: bash
       run: |
+        set -xv
         if [[ ! -f /usr/bin/gcc-${{ inputs.default_ver }} ]]; then
           printf "[!] /usr/bin/gcc-%s does not exist.\nPlease choose a valid version number.\n" "${{ inputs.default_ver }}"
           exit 1
@@ -41,7 +42,4 @@ runs:
         sudo update-alternatives --install /usr/bin/gcc-nm gcc-nm /usr/bin/gcc-nm-${{ inputs.alternate_ver }} 90
         sudo update-alternatives --install /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-${{ inputs.default_ver }} 100
         sudo update-alternatives --install /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-${{ inputs.alternate_ver }} 90
-        if [[ $? -ne 0 ]]; then
-          printf "[!] Something went wrong.\n"
-          exit 1
-        fi
+        set +xv
