@@ -1,0 +1,13 @@
+name: "Setup Rclone"
+description: "Setup Rclone with Configs"
+runs:
+  using: "composite"
+  steps: 
+    - name: "Configure KeepAlive"
+      shell: bash
+      run: |
+        # Pass RCLONE_CONFIG_HASH through ENV
+        export curl_opts=(-sL --retry 10 --retry-connrefused)
+        export RcloneSetupBase="https://gist.github.com/rokibhasansagar/89f2a399e2faf513b4b21a9b7219caa4"
+        export RcloneSetupScr="$(curl ${curl_opts[@]} "${RcloneSetupBase}" | grep -o "/raw/.*/setup.rclone.plus.configs.sh")"
+        curl ${curl_opts[@]} "${RcloneSetupBase}${RcloneSetupScr}" | bash
