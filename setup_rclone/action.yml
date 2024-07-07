@@ -3,7 +3,7 @@ description: "Setup Rclone with Configs"
 runs:
   using: "composite"
   steps: 
-    - name: "Configure KeepAlive"
+    - name: "Configure Rclone with Personal Configs"
       shell: bash
       run: |
         # Pass RCLONE_CONFIG_HASH through ENV
