@@ -29,6 +29,7 @@ runs:
         if [[ ${{ inputs.credential }} =~ "yes" ]]; then
           git config --global credential.helper store
           echo "https://${{ inputs.git_name }}:${PAT}@github.com" > ~/.git-credentials
+          echo "https://${{ inputs.git_name }}:${PAT}@gist.github.com" > ~/.git-credentials
         fi
         if [[ ${{ inputs.git_cookies }} =~ "yes" ]]; then
           git clone -q "https://${PAT}@github.com/${{ inputs.git_name }}/google-git-cookies.git" &> /dev/null
