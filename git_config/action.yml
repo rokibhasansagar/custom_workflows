@@ -28,6 +28,7 @@ runs:
         git config --global color.ui true
         if [[ ${{ inputs.credential }} =~ "yes" ]]; then
           git config --global credential.helper store
+          git config --global url."https://${PAT}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
           echo "https://${{ inputs.git_name }}:${PAT}@github.com" > ~/.git-credentials
           echo "https://${{ inputs.git_name }}:${PAT}@gist.github.com" > ~/.git-credentials
         fi
