@@ -32,8 +32,8 @@ runs:
           echo "https://${{ inputs.git_name }}:${PAT}@github.com" > ~/.git-credentials
           echo "https://${{ inputs.git_name }}:${PAT}@gist.github.com" > ~/.git-credentials
         fi
-        git config set advice.defaultBranchName false
-        # git config --global init.defaultBranch main
+        git config --global advice.defaultBranchName false
+        git config --global init.defaultBranch main
         if [[ ${{ inputs.git_cookies }} =~ "yes" ]]; then
           git clone -q "https://${PAT}@github.com/${{ inputs.git_name }}/google-git-cookies.git" &> /dev/null
           if [ -e google-git-cookies ]; then
